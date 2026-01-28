@@ -45,10 +45,13 @@ export default function ConsolePage() {
     const refreshSingleInstance = async (id: string) => {
         try {
             const res = await fetch(`/api/proxy/virtual_machine/${id}`);
-            const resData = await res.json();            
+            const resData = await res.json();          
         
             if (resData.success && resData.data) {
                 const updatedItem = resData.data;
+                const newStatus = updatedItem.status;
+                
+                if ( newStatus === 'archived' ) await fetchRented()
                 
                 setInstances(prev => prev.map(ins => {
                     if (ins.id === id) {
@@ -92,15 +95,15 @@ export default function ConsolePage() {
         }
     };
 
-  useInstancePolling(isLoggedIn, true, instances, refreshSingleInstance, fetchRented);
+    useInstancePolling(isLoggedIn, true, instances, refreshSingleInstance, fetchRented);
 
-  useEffect(() => { if (isLoggedIn) fetchRented(); }, [isLoggedIn]);
+    useEffect(() => { if (isLoggedIn) fetchRented(); }, [isLoggedIn]);
 
-  return (
-    <Console 
-      instances={instances} 
-      onTerminate={handleTerminate} 
-      actionLoading={actionLoading} 
-    />
-  );
+    return (
+        <Console 
+            instances={instances} 
+            onTerminate={handleTerminate} 
+            actionLoading={actionLoading} 
+        />
+    );
 }

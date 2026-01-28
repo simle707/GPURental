@@ -1,23 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { OAuth2Client } from 'google-auth-library';
+import admin from 'firebase-admin';
 
-const client = new OAuth2Client(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    }),
+  });
+}
+
+const auth = admin.auth();
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export async function POST(req: NextRequest) {
   try {
     const { idToken, userProfile } = await req.json();
 
-    const ticket = await client.verifyIdToken({
-      idToken,
-      audience: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-    });
-    
-    const payload = ticket.getPayload();
-    const sub = payload?.sub;
+    const decodedToken = await auth.verifyIdToken(idToken);
+    const sub = decodedToken.uid;
     
 
-    const apiToken = process.env.NEXT_PUBLIC_BUS_API_TOKEN;
+    const apiToken = process.env.BUS_API_TOKEN;
     const busRes = await fetch(`${API_BASE_URL}/bus/api/v1/international/sessions`, {
       method: 'POST',
       headers: {
@@ -32,7 +37,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Login failed', detail: busData }, { status: 401 });
     }
 
-    const response = NextResponse.json({ user: busData.data.user });
+    const response = NextResponse.json({ 
+      success: true,
+      isLoggedIn: true,
+      user: busData.data.user
+    });
+    
     response.cookies.set('featurize-hub-session', busData.data.token, {
       httpOnly: true,
       path: '/',
