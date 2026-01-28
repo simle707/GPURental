@@ -75,16 +75,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {        
         const initAuth = async () => {
-            try {
-                const result = await getRedirectResult(auth); 
-                console.log("result=",result);
+            // try {
+            //     const result = await getRedirectResult(auth); 
+            //     console.log("result=",result);
                  
-                if (result?.user) {
-                    await syncBackend(result.user)
-                }
-            } catch (error) {
-                console.error("Redirect Error:", error);
-            }
+            //     if (result?.user) {
+            //         await syncBackend(result.user)
+            //     }
+            // } catch (error) {
+            //     console.error("Redirect Error:", error);
+            // }
             // const shouldCheck = localStorage.getItem('should_check_auth');
             // console.log("should_check_auth=", shouldCheck);
             
