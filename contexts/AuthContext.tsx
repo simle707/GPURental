@@ -87,7 +87,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             console.log("should_check_auth=", shouldCheck);
             
             const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-                console.log(firebaseUser);
+                console.log("firebaseUser=",firebaseUser);
                 
                 if (firebaseUser && shouldCheck === 'true') {
                     await checkAuth();

@@ -39,6 +39,8 @@ export const signInWithGoogle = async () => {
 		return await signInWithPopup(auth, provider);
 	} else {
 		console.log("检测到生产环境，发起 Redirect...");
+		console.log(auth);
+		
 		return await signInWithRedirect(auth, provider);
 	}
 };
