@@ -71,13 +71,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
-    useEffect(() => {
-        console.log(123123);
-        
+    useEffect(() => {        
         const initAuth = async () => {
             try {
                 const result = await getRedirectResult(auth); 
-                console.log(result);
+                console.log("result=",result);
                  
                 if (result?.user) {
                     await syncBackend(result.user)
@@ -86,6 +84,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 console.error("Redirect Error:", error);
             }
             const shouldCheck = localStorage.getItem('should_check_auth');
+            console.log("should_check_auth=", shouldCheck);
+            
             const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
                 console.log(firebaseUser);
                 
