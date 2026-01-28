@@ -87,6 +87,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             }
             const shouldCheck = localStorage.getItem('should_check_auth');
             const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+                console.log(firebaseUser);
+                
                 if (firebaseUser && shouldCheck === 'true') {
                     await checkAuth();
                 } else {
@@ -106,7 +108,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         try {
             setLoading(true);
             const result = await signInWithGoogle();
-            console.log(result.user);
             
             if (result?.user) {
                 const success = await syncBackend(result.user);

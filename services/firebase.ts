@@ -30,18 +30,18 @@ export const signInWithGoogle = async () => {
 	provider.addScope('email');
 	provider.addScope('openid');
 	provider.setCustomParameters({
-	prompt: 'select_account',
-	access_type: 'offline'
+		prompt: 'select_account',
+		access_type: 'offline'
 	});
 
 	if (process.env.NODE_ENV === 'development') {
 		console.log("检测到开发环境，使用 Popup 登录...");
 		return await signInWithPopup(auth, provider);
-		} else {
+	} else {
 		console.log("检测到生产环境，发起 Redirect...");
 		return await signInWithRedirect(auth, provider);
-		}
-	};
+	}
+};
 
 export const signOutUser = async () => {
 	await signOut(auth);
