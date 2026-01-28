@@ -36,6 +36,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 credentials: 'include',
             });
             const data = await response.json();
+            console.log("data: ", data);
+            
 
             if (response.ok && data.user) {
                 setUser(data.user);
@@ -87,9 +89,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             // console.log("should_check_auth=", shouldCheck);
             
             const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-                console.log("firebaseUser=",firebaseUser);
+                console.log("Firebase 状态变化:", firebaseUser ? "已登录" : "未登录");
                 
                 if (firebaseUser) {
+                    console.log("auth");
+                    
                     await checkAuth();
                 } else {
                     setLoading(false);
