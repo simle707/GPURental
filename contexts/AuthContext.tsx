@@ -40,7 +40,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             if (response.ok && data.user) {
                 setUser(data.user);
                 setIsLoggedIn(true);
-                localStorage.setItem('should_check_auth', 'true');
+                // localStorage.setItem('should_check_auth', 'true');
                 return true;
             }
             return false;
@@ -58,14 +58,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             if (res.ok && userInfo.isLoggedIn && userInfo.user) {
                 setUser(userInfo.user);
                 setIsLoggedIn(true);
-                localStorage.setItem('should_check_auth', 'true');
+                // localStorage.setItem('should_check_auth', 'true');
             } else {
                 throw new Error("Not logged in");
             }
         } catch (err) {
             setUser(null);
             setIsLoggedIn(false);
-            localStorage.removeItem('should_check_auth');
+            // localStorage.removeItem('should_check_auth');
         } finally {
             setLoading(false);
         }
@@ -83,13 +83,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             } catch (error) {
                 console.error("Redirect Error:", error);
             }
-            const shouldCheck = localStorage.getItem('should_check_auth');
-            console.log("should_check_auth=", shouldCheck);
+            // const shouldCheck = localStorage.getItem('should_check_auth');
+            // console.log("should_check_auth=", shouldCheck);
             
             const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
                 console.log("firebaseUser=",firebaseUser);
                 
-                if (firebaseUser && shouldCheck === 'true') {
+                if (firebaseUser) {
                     await checkAuth();
                 } else {
                     setLoading(false);
@@ -127,7 +127,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } finally {
             setUser(null);
             setIsLoggedIn(false);
-            localStorage.removeItem('should_check_auth');
+            // localStorage.removeItem('should_check_auth');
             window.location.href = '/';
         }
     };
