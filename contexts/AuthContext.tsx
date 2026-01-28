@@ -76,16 +76,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     useEffect(() => {        
         const initAuth = async () => {
             await new Promise(resolve => setTimeout(resolve, 500));
-            try {
-                const result = await getRedirectResult(auth); 
-                console.log("手动检查重定向结果:", result);
+            // try {
+            //     const result = await getRedirectResult(auth); 
+            //     console.log("手动检查重定向结果:", result);
                  
-                if (result?.user) {
-                    await syncBackend(result.user)
-                }
-            } catch (error) {
-                console.error("Redirect Error:", error);
-            }
+            //     if (result?.user) {
+            //         await syncBackend(result.user)
+            //     }
+            // } catch (error) {
+            //     console.error("Redirect Error:", error);
+            // }
             // const shouldCheck = localStorage.getItem('should_check_auth');
             // console.log("should_check_auth=", shouldCheck);
             
