@@ -31,14 +31,14 @@ export const Navbar = () => {
 
 				<nav className="flex items-center gap-4">
 					<Link
-						href="/whyfeaturize"
-						className={`text-sm font-medium transition-colors hover:text-primary ${pathname === '/whyfeaturize' ? 'text-primary' : 'text-base-content/60'}`}
+						href="/"
+						className={`text-sm font-medium transition-colors hover:text-primary ${pathname === '/' ? 'text-primary' : 'text-base-content/60'}`}
 					>
 						Why Featurize
 					</Link>
 					<Link
-						href="/"
-						className={`text-sm font-medium transition-colors hover:text-primary ${pathname === '/' ? 'text-primary' : 'text-base-content/60'}`}
+						href="/gpupricing"
+						className={`text-sm font-medium transition-colors hover:text-primary ${pathname === '/gpupricing' ? 'text-primary' : 'text-base-content/60'}`}
 					>
 						GPU pricing
 					</Link>
