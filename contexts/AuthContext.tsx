@@ -36,7 +36,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 credentials: 'include',
             });
             const data = await response.json();
-            console.log("data: ", data);
             
 
             if (response.ok && data.user) {
@@ -75,25 +74,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {        
         const initAuth = async () => {
-            // await new Promise(resolve => setTimeout(resolve, 500));
-            // try {
-            //     const result = await getRedirectResult(auth); 
+            await new Promise(resolve => setTimeout(resolve, 500));
+            try {
+                const result = await getRedirectResult(auth); 
                  
-            //     if (result?.user) {
-            //         await syncBackend(result.user)
-            //     }
-            // } catch (error) {
-            //     console.error("Redirect Error:", error);
-            // }
-            const shouldCheck = localStorage.getItem('should_check_auth');
-            console.log("should_check_auth=", shouldCheck);
+                if (result?.user) {
+                    await syncBackend(result.user)
+                }
+            } catch (error) {
+                console.error("Redirect Error:", error);
+            }
+            // const shouldCheck = localStorage.getItem('should_check_auth');
+            // console.log("should_check_auth=", shouldCheck);
             
             const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
                 console.log("Firebase 状态变化:", firebaseUser ? "已登录" : "未登录");
                 
-                if (firebaseUser) {
-                    console.log("auth");
-                    
+                if (firebaseUser) {                    
                     await checkAuth();
                 } else {
                     setLoading(false);
