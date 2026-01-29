@@ -1,4 +1,5 @@
 'use client'
+import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import { 
 	getAuth, 
@@ -20,6 +21,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 export const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
