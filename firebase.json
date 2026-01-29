@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "rewrites": [
+      {
+        "source": "/__/auth/**",
+        "destination": "https://featurize-75e63.firebaseapp.com/__/auth/**"
+      }
+    ]
+  }
+}
